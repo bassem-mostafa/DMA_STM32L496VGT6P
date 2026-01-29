@@ -100,6 +100,22 @@ extern "C"
     } DMA_STM32L496VGT6P_t;
 
     /**
+     *  @brief DMA STM32L496VGT6P Channel
+     *
+     *  @enum DMA_STM32L496VGT6P_Channel_t
+     */
+    typedef enum DMA_STM32L496VGT6P_Channel
+    {
+        DMA_STM32L496VGT6P_Channel_1 = 0, ///< Channel 1 (Minimum)
+        DMA_STM32L496VGT6P_Channel_2,     ///<
+        DMA_STM32L496VGT6P_Channel_3,     ///<
+        DMA_STM32L496VGT6P_Channel_4,     ///<
+        DMA_STM32L496VGT6P_Channel_5,     ///<
+        DMA_STM32L496VGT6P_Channel_6,     ///<
+        DMA_STM32L496VGT6P_Channel_7,     ///< Channel 7 (Maximum)
+    } DMA_STM32L496VGT6P_Channel_t;
+
+    /**
      *  @brief DMA STM32L496VGT6P Instance (Forward Declaration)
      */
     typedef struct DMA_STM32L496VGT6P_Instance DMA_STM32L496VGT6P_Instance_t;
@@ -107,7 +123,7 @@ extern "C"
     /**
      *  @brief DMA STM32L496VGT6P Callback On Interrupt
      */
-    typedef DMA_STM32L496VGT6P_Status_t ( *DMA_STM32L496VGT6P_CallbackOnInterrupt_t )( DMA_STM32L496VGT6P_Instance_t * Instance );
+    typedef DMA_STM32L496VGT6P_Status_t ( *DMA_STM32L496VGT6P_CallbackOnInterrupt_t )( DMA_STM32L496VGT6P_Instance_t * Instance, DMA_STM32L496VGT6P_Channel_t Channel );
 
     /**
      *  @brief DMA STM32L496VGT6P Instance Context
@@ -124,6 +140,8 @@ extern "C"
     typedef struct DMA_STM32L496VGT6P_Instance
     {
         DMA_STM32L496VGT6P_t DMAx;
+
+        DMA_STM32L496VGT6P_CallbackOnInterrupt_t OnInterrupt;
 
         // Managed Internally
         DMA_STM32L496VGT6P_Instance_Context_t * Context;

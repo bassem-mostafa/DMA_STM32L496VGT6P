@@ -77,8 +77,8 @@ typedef enum DMA_STM32L496VGT6P_Event
 
 typedef struct DMA_STM32L496VGT6P_Instance_Context
 {
-    DMA_TypeDef * DMAx;
-    DMA_InitTypeDef InitType;
+    // DMA_TypeDef * DMAx; // FIXME
+    // DMA_InitTypeDef InitType; // FIXME
     DMA_STM32L496VGT6P_Event_t Event;
 } DMA_STM32L496VGT6P_Instance_Context_t;
 
@@ -327,57 +327,59 @@ static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Cycle( DMA_STM32L
     {
         DMA_Trace( "%s( Instance=%p )", __FUNCTION__, Instance );
 
-        if ( ( Instance->Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_1 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_1 )
+        DMA_STM32L496VGT6P_Instance_Context_t * Context = &DMA_STM32L496VGT6P_Context.Context[ Instance->DMAx ];
+
+        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_1 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_1 )
         {
-            Instance->Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_1;
+            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_1;
             DMA_Trace( "Interrupt CH1: Instance=%p, DMA=%d", Instance, Instance->DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Instance->Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_2 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_2 )
+        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_2 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_2 )
         {
-            Instance->Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_2;
+            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_2;
             DMA_Trace( "Interrupt CH2: Instance=%p, DMA=%d", Instance, Instance->DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Instance->Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_3 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_3 )
+        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_3 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_3 )
         {
-            Instance->Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_3;
+            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_3;
             DMA_Trace( "Interrupt CH3: Instance=%p, DMA=%d", Instance, Instance->DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Instance->Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_4 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_4 )
+        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_4 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_4 )
         {
-            Instance->Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_4;
+            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_4;
             DMA_Trace( "Interrupt CH4: Instance=%p, DMA=%d", Instance, Instance->DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Instance->Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_5 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_5 )
+        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_5 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_5 )
         {
-            Instance->Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_5;
+            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_5;
             DMA_Trace( "Interrupt CH5: Instance=%p, DMA=%d", Instance, Instance->DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Instance->Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_6 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_6 )
+        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_6 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_6 )
         {
-            Instance->Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_6;
+            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_6;
             DMA_Trace( "Interrupt CH6: Instance=%p, DMA=%d", Instance, Instance->DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Instance->Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_7 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_7 )
+        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_7 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_7 )
         {
-            Instance->Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_7;
+            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_7;
             DMA_Trace( "Interrupt CH7: Instance=%p, DMA=%d", Instance, Instance->DMAx );
 
             // TODO Invoke Callback
@@ -481,7 +483,7 @@ DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_DeInitialize( DMA_STM32L496VGT6P_
 // #### Public Variable(s) #####################################################
 // #############################################################################
 
-const char DMA_STM32L496VGT6P_VERSION[] = "0.0.0.v20260129-1438";
+const char DMA_STM32L496VGT6P_VERSION[] = "0.0.0.v20260130-0032";
 
 // #############################################################################
 // #### File Guard #############################################################
