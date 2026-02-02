@@ -77,8 +77,8 @@ typedef enum DMA_STM32L496VGT6P_Event
 
 typedef struct DMA_STM32L496VGT6P_Instance_Context
 {
-    // DMA_TypeDef * DMAx; // FIXME
-    // DMA_InitTypeDef InitType; // FIXME
+    DMA_TypeDef * DMAx;       // TODO Make use of DMAx:DMA_TypeDef
+    DMA_InitTypeDef InitType; // TODO Make use if InitType:DMA_InitTypeDef
     DMA_STM32L496VGT6P_Event_t Event;
 } DMA_STM32L496VGT6P_Instance_Context_t;
 
@@ -397,9 +397,6 @@ static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_DeInitialize( DMA
     do
     {
         DMA_Trace( "%s( Instance=%p )", __FUNCTION__, Instance );
-
-        // TODO De-Initialize & Disable
-        // TODO Apply Lowest Power Mode
     }
     while ( 0 );
 
@@ -483,7 +480,7 @@ DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_DeInitialize( DMA_STM32L496VGT6P_
 // #### Public Variable(s) #####################################################
 // #############################################################################
 
-const char DMA_STM32L496VGT6P_VERSION[] = "0.0.0.v20260130-0032";
+const char DMA_STM32L496VGT6P_VERSION[] = "0.0.0.v20260202-1914";
 
 // #############################################################################
 // #### File Guard #############################################################
