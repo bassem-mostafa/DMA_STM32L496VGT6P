@@ -128,9 +128,9 @@ extern "C"
     /**
      *  @brief DMA STM32L496VGT6P Instance Context
      *
-     *  @struct DMA_STM32L496VGT6P_Instance_Context_t
+     *  @struct DMA_STM32L496VGT6P_InstanceContext_t
      */
-    typedef struct DMA_STM32L496VGT6P_Instance_Context DMA_STM32L496VGT6P_Instance_Context_t;
+    typedef struct DMA_STM32L496VGT6P_InstanceContext DMA_STM32L496VGT6P_InstanceContext_t;
 
     /**
      *  @brief DMA STM32L496VGT6P Instance
@@ -144,7 +144,7 @@ extern "C"
         DMA_STM32L496VGT6P_CallbackOnInterrupt_t OnInterrupt;
 
         // Managed Internally
-        DMA_STM32L496VGT6P_Instance_Context_t * Context;
+        DMA_STM32L496VGT6P_InstanceContext_t * Context;
     } DMA_STM32L496VGT6P_Instance_t;
 
     // #############################################################################
