@@ -75,17 +75,16 @@ typedef enum DMA_STM32L496VGT6P_Event
     DMA_STM32L496VGT6P_Event_InterruptChannel_7 = UTIL_BIT( 6 ),
 } DMA_STM32L496VGT6P_Event_t;
 
-typedef struct DMA_STM32L496VGT6P_InstanceContext
+typedef struct DMA_STM32L496VGT6P_Instance
 {
-    DMA_TypeDef * DMAx;       // TODO Make use of DMAx:DMA_TypeDef
-    DMA_InitTypeDef InitType; // TODO Make use if InitType:DMA_InitTypeDef
+    // DMA_TypeDef * DMAx;       // TODO Make use of DMAx:DMA_TypeDef
+    // DMA_InitTypeDef InitType; // TODO Make use if InitType:DMA_InitTypeDef
     DMA_STM32L496VGT6P_Event_t Event;
-} DMA_STM32L496VGT6P_InstanceContext_t;
+} DMA_STM32L496VGT6P_Instance_t;
 
 typedef struct DMA_STM32L496VGT6P_Context
 {
-    TIM_Timestamp_t Timestamp;
-    DMA_STM32L496VGT6P_InstanceContext_t Context[ DMA_STM32L496VGT6P_Count ];
+    DMA_STM32L496VGT6P_Instance_t Instance[ DMA_STM32L496VGT6P_Count ];
 } DMA_STM32L496VGT6P_Context_t;
 
 // #############################################################################
@@ -112,9 +111,9 @@ static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Context_Initialize( void )
 static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Context_Cycle( void );
 static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Context_DeInitialize( void );
 
-static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Initialize( DMA_STM32L496VGT6P_Instance_t * Instance );
-static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Cycle( DMA_STM32L496VGT6P_Instance_t * Instance );
-static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_DeInitialize( DMA_STM32L496VGT6P_Instance_t * Instance );
+static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Initialize( DMA_STM32L496VGT6P_t DMAx );
+static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Cycle( DMA_STM32L496VGT6P_t DMAx );
+static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_DeInitialize( DMA_STM32L496VGT6P_t DMAx );
 
 // #############################################################################
 // #### Private Variable(s) ####################################################
@@ -128,30 +127,30 @@ static DMA_STM32L496VGT6P_Context_t DMA_STM32L496VGT6P_Context;
 
 void DMA1_Channel1_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_1 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_1;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_1;
 }
 
 void DMA1_Channel2_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_1 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_2;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_2;
 }
 
 void DMA1_Channel3_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_1 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_3;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_3;
 }
 
 void DMA1_Channel4_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_1 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_4;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_4;
 
     extern DMA_HandleTypeDef hdma_spi2_rx;
     HAL_DMA_IRQHandler( &hdma_spi2_rx );
@@ -159,9 +158,9 @@ void DMA1_Channel4_IRQHandler( void )
 
 void DMA1_Channel5_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_1 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_5;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_5;
 
     extern DMA_HandleTypeDef hdma_spi2_tx;
     HAL_DMA_IRQHandler( &hdma_spi2_tx );
@@ -169,9 +168,9 @@ void DMA1_Channel5_IRQHandler( void )
 
 void DMA1_Channel6_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_1 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_6;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_6;
 
     extern DMA_HandleTypeDef hdma_usart2_rx;
     HAL_DMA_IRQHandler( &hdma_usart2_rx );
@@ -179,9 +178,9 @@ void DMA1_Channel6_IRQHandler( void )
 
 void DMA1_Channel7_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_1 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_7;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_7;
 
     extern DMA_HandleTypeDef hdma_usart2_tx;
     HAL_DMA_IRQHandler( &hdma_usart2_tx );
@@ -189,9 +188,9 @@ void DMA1_Channel7_IRQHandler( void )
 
 void DMA2_Channel1_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_2 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_2 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_1;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_1;
 
     extern DMA_HandleTypeDef hdma_spi3_rx;
     HAL_DMA_IRQHandler( &hdma_spi3_rx );
@@ -199,9 +198,9 @@ void DMA2_Channel1_IRQHandler( void )
 
 void DMA2_Channel2_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_2 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_2 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_2;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_2;
 
     extern DMA_HandleTypeDef hdma_spi3_tx;
     HAL_DMA_IRQHandler( &hdma_spi3_tx );
@@ -209,16 +208,16 @@ void DMA2_Channel2_IRQHandler( void )
 
 void DMA2_Channel3_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_2 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_2 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_3;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_3;
 }
 
 void DMA2_Channel4_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_2 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_2 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_4;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_4;
 
     extern DMA_HandleTypeDef hdma_spi1_tx;
     HAL_DMA_IRQHandler( &hdma_spi1_tx );
@@ -226,16 +225,16 @@ void DMA2_Channel4_IRQHandler( void )
 
 void DMA2_Channel5_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_2 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_2 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_5;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_5;
 }
 
 void DMA2_Channel6_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_2 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_2 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_6;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_6;
 
     extern DMA_HandleTypeDef hdma_usart1_tx;
     HAL_DMA_IRQHandler( &hdma_usart1_tx );
@@ -243,9 +242,9 @@ void DMA2_Channel6_IRQHandler( void )
 
 void DMA2_Channel7_IRQHandler( void )
 {
-    DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ DMA_STM32L496VGT6P_2 ];
+    DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_2 ];
 
-    Context->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_7;
+    Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_7;
 
     extern DMA_HandleTypeDef hdma_usart1_rx;
     HAL_DMA_IRQHandler( &hdma_usart1_rx );
@@ -258,6 +257,8 @@ static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Context_Initialize( void )
     do
     {
         DMA_Trace( "%s( void )", __FUNCTION__ );
+
+        UTIL_UNUSED( DMA_STM32L496VGT6P_Context );
 
         // FIXME Remove the usage of `MX_DMA_Init()`
     #if 1
@@ -277,6 +278,8 @@ static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Context_Cycle( void )
     do
     {
         DMA_Trace( "%s( void )", __FUNCTION__ );
+
+        UTIL_UNUSED( DMA_STM32L496VGT6P_Context );
     }
     while ( 0 );
 
@@ -290,99 +293,103 @@ static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Context_DeInitialize( void
     do
     {
         DMA_Trace( "%s( void )", __FUNCTION__ );
+
+        UTIL_UNUSED( DMA_STM32L496VGT6P_Context );
     }
     while ( 0 );
 
     return Status;
 }
 
-static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Initialize( DMA_STM32L496VGT6P_Instance_t * Instance )
+static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Initialize( DMA_STM32L496VGT6P_t DMAx )
 {
     DMA_STM32L496VGT6P_Status_t Status = DMA_STM32L496VGT6P_Status_Success;
 
     do
     {
-        DMA_Trace( "%s( Instance=%p )", __FUNCTION__, Instance );
+        DMA_Trace( "%s( DMAx=%d )", __FUNCTION__, DMAx );
 
-        if ( Instance == NULL )
-        {
-            Status = DMA_STM32L496VGT6P_Status_ArgumentInvalid;
-            break;
-        }
+        DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMAx ];
 
-        DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ Instance->DMAx ];
-
-        Instance->Context = Context;
+        Instance->Event = DMA_STM32L496VGT6P_Event_None;
     }
     while ( 0 );
 
     return Status;
 }
 
-static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Cycle( DMA_STM32L496VGT6P_Instance_t * Instance )
+static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Cycle( DMA_STM32L496VGT6P_t DMAx )
 {
     DMA_STM32L496VGT6P_Status_t Status = DMA_STM32L496VGT6P_Status_Success;
 
     do
     {
-        DMA_Trace( "%s( Instance=%p )", __FUNCTION__, Instance );
+        DMA_Trace( "%s( DMAx=%d )", __FUNCTION__, DMAx );
 
-        DMA_STM32L496VGT6P_InstanceContext_t * Context = &DMA_STM32L496VGT6P_Context.Context[ Instance->DMAx ];
+        DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMAx ];
+        DMA_STM32L496VGT6P_Event_t Event = Instance->Event; // CAUTION: Has to copy events occurred at the early start of the cycle, so as to be cleared at the end of the cycle,
+                                                            //          which let events occurs after that for the next cycle call
+        Instance->Event &= ~Event;                          //          Clear captured events
 
-        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_1 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_1 )
+        if ( ( Event & DMA_STM32L496VGT6P_Event_InterruptChannel_1 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_1 )
         {
-            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_1;
-            DMA_Trace( "Interrupt CH1: Instance=%p, DMA=%d", Instance, Instance->DMAx );
+            Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_1;
+            DMA_Debug( "Interrupt CH1: DMA=%d", DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_2 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_2 )
+        if ( ( Event & DMA_STM32L496VGT6P_Event_InterruptChannel_2 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_2 )
         {
-            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_2;
-            DMA_Trace( "Interrupt CH2: Instance=%p, DMA=%d", Instance, Instance->DMAx );
+            Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_2;
+            DMA_Debug( "Interrupt CH2: DMA=%d", DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_3 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_3 )
+        if ( ( Event & DMA_STM32L496VGT6P_Event_InterruptChannel_3 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_3 )
         {
-            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_3;
-            DMA_Trace( "Interrupt CH3: Instance=%p, DMA=%d", Instance, Instance->DMAx );
+            Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_3;
+            DMA_Debug( "Interrupt CH3: DMA=%d", DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_4 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_4 )
+        if ( ( Event & DMA_STM32L496VGT6P_Event_InterruptChannel_4 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_4 )
         {
-            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_4;
-            DMA_Trace( "Interrupt CH4: Instance=%p, DMA=%d", Instance, Instance->DMAx );
+            Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_4;
+            DMA_Debug( "Interrupt CH4: DMA=%d", DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_5 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_5 )
+        if ( ( Event & DMA_STM32L496VGT6P_Event_InterruptChannel_5 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_5 )
         {
-            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_5;
-            DMA_Trace( "Interrupt CH5: Instance=%p, DMA=%d", Instance, Instance->DMAx );
+            Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_5;
+            DMA_Debug( "Interrupt CH5: DMA=%d", DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_6 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_6 )
+        if ( ( Event & DMA_STM32L496VGT6P_Event_InterruptChannel_6 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_6 )
         {
-            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_6;
-            DMA_Trace( "Interrupt CH6: Instance=%p, DMA=%d", Instance, Instance->DMAx );
+            Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_6;
+            DMA_Debug( "Interrupt CH6: DMA=%d", DMAx );
 
             // TODO Invoke Callback
         }
 
-        if ( ( Context->Event & DMA_STM32L496VGT6P_Event_InterruptChannel_7 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_7 )
+        if ( ( Event & DMA_STM32L496VGT6P_Event_InterruptChannel_7 ) == DMA_STM32L496VGT6P_Event_InterruptChannel_7 )
         {
-            Context->Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_7;
-            DMA_Trace( "Interrupt CH7: Instance=%p, DMA=%d", Instance, Instance->DMAx );
+            Event &= ~DMA_STM32L496VGT6P_Event_InterruptChannel_7;
+            DMA_Debug( "Interrupt CH7: DMA=%d", DMAx );
 
             // TODO Invoke Callback
+        }
+
+        if ( Event )
+        {
+            DMA_Warning( "Not handled events %X: DMA=%d", Event, DMAx );
         }
     }
     while ( 0 );
@@ -390,13 +397,13 @@ static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_Cycle( DMA_STM32L
     return Status;
 }
 
-static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_DeInitialize( DMA_STM32L496VGT6P_Instance_t * Instance )
+static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_DeInitialize( DMA_STM32L496VGT6P_t DMAx )
 {
     DMA_STM32L496VGT6P_Status_t Status = DMA_STM32L496VGT6P_Status_Success;
 
     do
     {
-        DMA_Trace( "%s( Instance=%p )", __FUNCTION__, Instance );
+        DMA_Trace( "%s( DMAx=%d )", __FUNCTION__, DMAx );
     }
     while ( 0 );
 
@@ -407,20 +414,20 @@ static DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Instance_DeInitialize( DMA
 // #### Public Method(s) #######################################################
 // #############################################################################
 
-DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Initialize( DMA_STM32L496VGT6P_Instance_t * Instance )
+DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Initialize( DMA_STM32L496VGT6P_t DMAx )
 {
     DMA_STM32L496VGT6P_Status_t Status = DMA_STM32L496VGT6P_Status_Success;
 
     do
     {
-        DMA_Trace( "%s( Instance=%p )", __FUNCTION__, Instance );
+        DMA_Trace( "%s( DMAx=%d )", __FUNCTION__, DMAx );
 
         if ( ( Status = DMA_STM32L496VGT6P_Context_Initialize( ) ) != DMA_STM32L496VGT6P_Status_Success )
         {
             break;
         }
 
-        if ( ( Status = DMA_STM32L496VGT6P_Instance_Initialize( Instance ) ) != DMA_STM32L496VGT6P_Status_Success )
+        if ( ( Status = DMA_STM32L496VGT6P_Instance_Initialize( DMAx ) ) != DMA_STM32L496VGT6P_Status_Success )
         {
             break;
         }
@@ -430,20 +437,20 @@ DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Initialize( DMA_STM32L496VGT6P_In
     return Status;
 }
 
-DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Cycle( DMA_STM32L496VGT6P_Instance_t * Instance )
+DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Cycle( DMA_STM32L496VGT6P_t DMAx )
 {
     DMA_STM32L496VGT6P_Status_t Status = DMA_STM32L496VGT6P_Status_Error;
 
     do
     {
-        DMA_Trace( "%s( Instance=%p )", __FUNCTION__, Instance );
+        DMA_Trace( "%s( DMAx=%d )", __FUNCTION__, DMAx );
 
         if ( ( Status = DMA_STM32L496VGT6P_Context_Cycle( ) ) != DMA_STM32L496VGT6P_Status_Success )
         {
             break;
         }
 
-        if ( ( Status = DMA_STM32L496VGT6P_Instance_Cycle( Instance ) ) != DMA_STM32L496VGT6P_Status_Success )
+        if ( ( Status = DMA_STM32L496VGT6P_Instance_Cycle( DMAx ) ) != DMA_STM32L496VGT6P_Status_Success )
         {
             break;
         }
@@ -453,15 +460,15 @@ DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Cycle( DMA_STM32L496VGT6P_Instanc
     return Status;
 }
 
-DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_DeInitialize( DMA_STM32L496VGT6P_Instance_t * Instance )
+DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_DeInitialize( DMA_STM32L496VGT6P_t DMAx )
 {
     DMA_STM32L496VGT6P_Status_t Status = DMA_STM32L496VGT6P_Status_Error;
 
     do
     {
-        DMA_Trace( "%s( Instance=%p )", __FUNCTION__, Instance );
+        DMA_Trace( "%s( DMAx=%d )", __FUNCTION__, DMAx );
 
-        if ( ( Status = DMA_STM32L496VGT6P_Instance_DeInitialize( Instance ) ) != DMA_STM32L496VGT6P_Status_Success )
+        if ( ( Status = DMA_STM32L496VGT6P_Instance_DeInitialize( DMAx ) ) != DMA_STM32L496VGT6P_Status_Success )
         {
             break;
         }
@@ -480,7 +487,7 @@ DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_DeInitialize( DMA_STM32L496VGT6P_
 // #### Public Variable(s) #####################################################
 // #############################################################################
 
-const char DMA_STM32L496VGT6P_VERSION[] = "0.0.0.v20260412-1852";
+const char DMA_STM32L496VGT6P_VERSION[] = "0.0.0.v20260818-0345";
 
 // #############################################################################
 // #### File Guard #############################################################

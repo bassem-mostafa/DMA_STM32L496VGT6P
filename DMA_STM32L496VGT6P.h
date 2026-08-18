@@ -116,36 +116,9 @@ extern "C"
     } DMA_STM32L496VGT6P_Channel_t;
 
     /**
-     *  @brief DMA STM32L496VGT6P Instance (Forward Declaration)
-     */
-    typedef struct DMA_STM32L496VGT6P_Instance DMA_STM32L496VGT6P_Instance_t;
-
-    /**
      *  @brief DMA STM32L496VGT6P Callback On Interrupt
      */
-    typedef DMA_STM32L496VGT6P_Status_t ( *DMA_STM32L496VGT6P_CallbackOnInterrupt_t )( DMA_STM32L496VGT6P_Instance_t * Instance, DMA_STM32L496VGT6P_Channel_t Channel );
-
-    /**
-     *  @brief DMA STM32L496VGT6P Instance Context
-     *
-     *  @struct DMA_STM32L496VGT6P_InstanceContext_t
-     */
-    typedef struct DMA_STM32L496VGT6P_InstanceContext DMA_STM32L496VGT6P_InstanceContext_t;
-
-    /**
-     *  @brief DMA STM32L496VGT6P Instance
-     *
-     *  @struct DMA_STM32L496VGT6P_Instance_t
-     */
-    typedef struct DMA_STM32L496VGT6P_Instance
-    {
-        DMA_STM32L496VGT6P_t DMAx;
-
-        DMA_STM32L496VGT6P_CallbackOnInterrupt_t OnInterrupt;
-
-        // Managed Internally
-        DMA_STM32L496VGT6P_InstanceContext_t * Context;
-    } DMA_STM32L496VGT6P_Instance_t;
+    typedef DMA_STM32L496VGT6P_Status_t ( *DMA_STM32L496VGT6P_CallbackOnInterrupt_t )( DMA_STM32L496VGT6P_t DMAx, DMA_STM32L496VGT6P_Channel_t Channel );
 
     // #############################################################################
     // #### Public Method(s) #######################################################
@@ -154,29 +127,29 @@ extern "C"
     /**
      *  @brief Initializes specified DMA STM32L496VGT6P Instance
      *
-     *  @param[in] Instance Instance
+     *  @param[in] DMAx Instance
      *
      *  @return DMA_STM32L496VGT6P_Status_t
      */
-    DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Initialize( DMA_STM32L496VGT6P_Instance_t * Instance );
+    DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Initialize( DMA_STM32L496VGT6P_t DMAx );
 
     /**
      *  @brief Cycles specified DMA STM32L496VGT6P Instance
      *
-     *  @param[in] Instance Instance
+     *  @param[in] DMAx Instance
      *
      *  @return DMA_STM32L496VGT6P_Status_t
      */
-    DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Cycle( DMA_STM32L496VGT6P_Instance_t * Instance );
+    DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_Cycle( DMA_STM32L496VGT6P_t DMAx );
 
     /**
      *  @brief De-initializes specified DMA STM32L496VGT6P Instance
      *
-     *  @param[in] Instance Instance
+     *  @param[in] DMAx Instance
      *
      *  @return DMA_STM32L496VGT6P_Status_t
      */
-    DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_DeInitialize( DMA_STM32L496VGT6P_Instance_t * Instance );
+    DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_DeInitialize( DMA_STM32L496VGT6P_t DMAx );
 
     // #############################################################################
     // #### Public Variable(s) #####################################################
