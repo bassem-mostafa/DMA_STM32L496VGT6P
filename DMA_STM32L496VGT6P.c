@@ -137,6 +137,9 @@ void DMA1_Channel2_IRQHandler( void )
     DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
     Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_2;
+
+    extern DMA_HandleTypeDef hdma_spi1_rx;
+    HAL_DMA_IRQHandler( &hdma_spi1_rx );
 }
 
 void DMA1_Channel3_IRQHandler( void )
@@ -144,6 +147,9 @@ void DMA1_Channel3_IRQHandler( void )
     DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_1 ];
 
     Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_3;
+
+    extern DMA_HandleTypeDef hdma_spi1_tx;
+    HAL_DMA_IRQHandler( &hdma_spi1_tx );
 }
 
 void DMA1_Channel4_IRQHandler( void )
@@ -218,9 +224,6 @@ void DMA2_Channel4_IRQHandler( void )
     DMA_STM32L496VGT6P_Instance_t * Instance = &DMA_STM32L496VGT6P_Context.Instance[ DMA_STM32L496VGT6P_2 ];
 
     Instance->Event |= DMA_STM32L496VGT6P_Event_InterruptChannel_4;
-
-    extern DMA_HandleTypeDef hdma_spi1_tx;
-    HAL_DMA_IRQHandler( &hdma_spi1_tx );
 }
 
 void DMA2_Channel5_IRQHandler( void )
@@ -487,7 +490,7 @@ DMA_STM32L496VGT6P_Status_t DMA_STM32L496VGT6P_DeInitialize( DMA_STM32L496VGT6P_
 // #### Public Variable(s) #####################################################
 // #############################################################################
 
-const char DMA_STM32L496VGT6P_VERSION[] = "0.0.0.v20261101-0430";
+const char DMA_STM32L496VGT6P_VERSION[] = "0.0.0.v20261101-1613";
 
 // #############################################################################
 // #### File Guard #############################################################
